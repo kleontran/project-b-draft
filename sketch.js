@@ -1,6 +1,6 @@
 function preload() {
-  surferImg = loadImage('/img/KaisAdventure.png'); 
-  music = loadSound('/sound/music.mp3');
+  surferImg = loadImage('img/KaisAdventure.png'); 
+  music = loadSound('sound/music.mp3');
 }
 
 function setup() {
