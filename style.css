@@ -16,7 +16,7 @@
     padding: 20px;
     background-color: white;
     width: fit-content;
-    
+    height: 100%;
   }
   canvas {
     display: block;
