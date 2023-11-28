@@ -8,9 +8,15 @@ let startTime;
 let gameDuration = 30000;
 let showStartScreen = true;
 let surferImg;
+let hasPlayedGameOverSound = false;
+let hasPlayedGameWonSound = false;
 
 function preload() {
   surferImg = loadImage('/img/movingKai.png'); 
+  music = loadSound('../sound/video-game-music.mp3');
+  thunder = loadSound('../sound/thunder-striking.mp3');
+  gameover = loadSound('../sound/gameover.mp3');
+  gamewon = loadSound('../sound/gamewon.mp3');
 }
 
 function setup() {
@@ -80,8 +86,10 @@ function mousePressed() {
   if (showStartScreen) {
     showStartScreen = false;
     startTime = millis();
+    music.loop(); 
   }
 }
+
 
 function restartGame() {
   gameOver = false;
@@ -95,7 +103,11 @@ function restartGame() {
     whirlpools.push(new Whirlpool(random(width), random(height - 50)));
   }
   startTime = millis();
+  music.stop(); 
+  hasPlayedGameOverSound = false;
+  hasPlayedGameWonSound = false;
 }
+
 
 function keyReleased() {
   surfer.setDirection(0);
@@ -112,19 +124,19 @@ class Surfer {
 
 
   display() {
-    push(); // Save the current drawing state
+    push(); 
     imageMode(CENTER);
 
-    translate(this.x, this.y); // Move to surfer location
+    translate(this.x, this.y); 
 
-    // If the surfer is moving left, scale the image to -1 (mirror it)
+    
     if (this.direction === -1) {
       scale(-1, 1);
     }
 
-    image(surferImg, 0, 0, this.size, this.size); // Display the image
+    image(surferImg, 0, 0, this.size, this.size); 
 
-    pop(); // Restore the original drawing state
+    pop(); 
   }
 
 
@@ -258,20 +270,7 @@ class Raindrop {
   display() {
     stroke(138, 43, 226); 
     line(this.x, this.y, this.x, this.y + this.length);
-    /*if (this.y > height - 10) {
-      this.createRipple();
-    }*/
   }
-
-  /*createRipple() {
-    this.rippleSize += 2;
-    noFill();
-    stroke(138, 43, 226, 255 - this.rippleSize * 10); 
-    ellipse(this.x, height, this.rippleSize, this.rippleSize / 4);
-    if (this.rippleSize > 25) { 
-      this.reset();
-    }
-  }*/
 }
 
 function displayGameOver() {
@@ -279,27 +278,44 @@ function displayGameOver() {
   textAlign(CENTER);
   textSize(48);
   text('GAME OVER', width / 2, height / 2);
+  
+  if (!hasPlayedGameOverSound) {
+    gameover.play();
+    hasPlayedGameOverSound = true;
+    music.stop(); 
+  }
 }
+
 
 function displayGameWon() {
   fill(0, 255, 0);
   textAlign(CENTER);
   textSize(48);
   text('YOU WON!', width / 2, height / 2);
+  
+  if (!hasPlayedGameWonSound) {
+    gamewon.play();
+    hasPlayedGameWonSound = true;
+    music.stop(); // Stop the background music
+  }
 }
 
 function thunderStrike() {
-  if (random(1) < 0.01) { 
+  if (random(1) < 0.01) {
     fill(255, 255, 0);
     noStroke();
-    rect(0, 0, width, height); 
+    rect(0, 0, width, height);
+    if (!thunder.isPlaying()) { 
+      thunder.play();
+    }
   }
 }
+
 
 function displayStartScreen() {
   background(135, 206, 235);
   textAlign(CENTER);
   textSize(32);
   fill(0);
-  text('Press ENTER to start', width / 2, height / 2);
+  text('Click to start', width / 2, height / 2);
 }

@@ -1,6 +1,6 @@
 function preload() {
   surferImg = loadImage('../img/KaisSafe.png'); 
-  music = loadSound('../sound/music.mp3');
+  music = loadSound('../sound/end.mp3');
 }
 
 function setup() {
