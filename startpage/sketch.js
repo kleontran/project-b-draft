@@ -1,15 +1,47 @@
+let surferImg, sunImg, music;
+let sunX, sunY; 
+let sunAngle = 0; 
+let dragging = false; 
+
 function preload() {
-  surferImg = loadImage('../img/KaiAdventure.png'); 
-  //startMusic = loadSound('../sound/music.mp3');
+  surferImg = loadImage('../img/KaisSafenoSun.png');
+  sunImg = loadImage('../img/sunNoBg.png'); 
+  music = loadSound('/sound/music.mp3');
+  click = loadSound('/sound/clicksun.wav');
 }
 
 function setup() {
   let canvas = createCanvas(800, 800);
   canvas.parent('sketch-container');
-  //startMusic.loop();
+  music.loop();
+  sunX = width * 10.5/ 12;
+  sunY = height /4;
 }
 
 function draw() {
   background(135, 206, 235);
   image(surferImg, 0, 0, width, height);
+  push();
+  translate(sunX, sunY);
+  rotate(sunAngle);
+  imageMode(CENTER);
+  image(sunImg, 0, 0, 200, 200); 
+  pop();
+}
+
+function mousePressed() {
+  
+  if (dist(mouseX, mouseY, sunX, sunY) < 25) { 
+    sunAngle += QUARTER_PI; 
+  }
+  if (!click.isPlaying()) {
+    click.play();
+  }
+}
+
+function mouseDragged() {
+  if (dist(mouseX, mouseY, sunX, sunY) < 25) {
+    sunX = mouseX;
+    sunY = mouseY;
+  }
 }

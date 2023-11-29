@@ -12,7 +12,7 @@ let hasPlayedGameOverSound = false;
 let hasPlayedGameWonSound = false;
 
 function preload() {
-  surferImg = loadImage('/img/movingKai.png'); 
+  surferImg = loadImage('../img/movingKai.png'); 
   music = loadSound('../sound/video-game-music.mp3');
   thunder = loadSound('../sound/thunder-striking.mp3');
   gameover = loadSound('../sound/gameover.mp3');
